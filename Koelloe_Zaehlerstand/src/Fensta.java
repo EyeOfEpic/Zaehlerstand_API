@@ -29,19 +29,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 
 public class Fensta {
 
 	public JFrame frame;
 	public JTextField wasser;
-	public String inhaltWasser = "0";
-	public String inhaltStrom = "0";
-	DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-	Calendar cal = Calendar.getInstance();
-	public String inhaltDate = dateFormat.format(cal.getTime());
-	public int laenge1 ;
-	public int laenge2 ;
+	private JButton btnLoad;
+	private JButton plusWas;
+	private JButton minusWas;
+	private JButton plusStrom;
+	private JButton minusStrom;
+	private JLabel lblSchritte;
+	private JRadioButton radioButton;
+	private JRadioButton radioButton_1;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 	public JButton button;
 	public JButton button_1;
 	public JButton button_2;
@@ -53,6 +57,12 @@ public class Fensta {
 	public JButton button_8;
 	public JButton button_9;
 	private JButton button_10;
+
+	DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+	Calendar cal = Calendar.getInstance();
+	public String inhaltDate = dateFormat.format(cal.getTime());
+	public int laenge1 ;
+	public int laenge2 ;
 	private JLabel lblWasser;
 	private JLabel lblStrom;
 	private JTextField strom;
@@ -60,8 +70,9 @@ public class Fensta {
 	public JTextField JFDate;
 	public File Datei = new File("/Users/Felix Raab/Desktop/Schule/Eclipse/Koelloe_Zaehlerstand/test.txt");
 	HashMap<String, String> Date = new HashMap<String, String>();
-
-	private JButton btnLoad;
+	public double schritt;
+	public String inhaltWasser = "0";
+	public String inhaltStrom = "0";
 
 
 
@@ -112,9 +123,9 @@ public class Fensta {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		frame.setBounds(100, 100, 300, 300);
+		frame.setBounds(100, 100, 347, 311);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[grow][][][][][][][][grow]", "[][][][][][][][]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[grow][][][][][][][][][][][grow]", "[][][][][][][][]"));
 
 
 		wasser = new JTextField();
@@ -146,30 +157,48 @@ public class Fensta {
 
 		button = new JButton("7");
 		button.addActionListener(new ZahlListener());
-		frame.getContentPane().add(button, "cell 2 2");
+
+		plusWas = new JButton("+");
+		plusWas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				inhaltWasser = Double.toString(Double.parseDouble(inhaltWasser)+schritt);
+				wasser.setText(inhaltWasser);
+			}
+		});
+		frame.getContentPane().add(plusWas, "cell 1 2,alignx center");
+
+		minusWas = new JButton("-");
+		minusWas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				inhaltWasser = Double.toString(Double.parseDouble(inhaltWasser)-schritt);
+				wasser.setText(inhaltWasser);
+			}
+		});
+		frame.getContentPane().add(minusWas, "cell 2 2,alignx center,aligny center");
+		frame.getContentPane().add(button, "cell 5 2");
 
 		button_1 = new JButton("8");
 		button_1.addActionListener(new ZahlListener());
-		frame.getContentPane().add(button_1, "cell 3 2");
+		frame.getContentPane().add(button_1, "cell 6 2");
 
 		button_2 = new JButton("9");
 		button_2.addActionListener(new ZahlListener());
-		frame.getContentPane().add(button_2, "cell 4 2");
+		frame.getContentPane().add(button_2, "cell 7 2");
 
 		button_3 = new JButton("4");
 		button_3.addActionListener(new ZahlListener());
 
 		lblStrom = new JLabel("Strom");
 		frame.getContentPane().add(lblStrom, "cell 0 3");
-		frame.getContentPane().add(button_3, "cell 2 3");
+		frame.getContentPane().add(button_3, "cell 5 3");
 
 		button_4 = new JButton("5");
 		button_4.addActionListener(new ZahlListener());
-		frame.getContentPane().add(button_4, "cell 3 3");
+		frame.getContentPane().add(button_4, "cell 6 3");
 
 		button_5 = new JButton("6");
 		button_5.addActionListener(new ZahlListener());
-		frame.getContentPane().add(button_5, "cell 4 3");
+		frame.getContentPane().add(button_5, "cell 7 3");
 
 		button_6 = new JButton("1");
 		button_6.addActionListener(new ZahlListener());
@@ -192,23 +221,41 @@ public class Fensta {
 		});
 		frame.getContentPane().add(strom, "cell 0 4,growx");
 		strom.setColumns(10);
-		frame.getContentPane().add(button_6, "cell 2 4");
+
+		plusStrom = new JButton("+");
+		plusStrom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				inhaltStrom = Double.toString(Double.parseDouble(inhaltStrom)+schritt);
+				strom.setText(inhaltStrom);
+			}
+		});
+		frame.getContentPane().add(plusStrom, "cell 1 4");
+
+		minusStrom = new JButton("-");
+		minusStrom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				inhaltStrom = Double.toString(Double.parseDouble(inhaltStrom)-schritt);
+				strom.setText(inhaltStrom);
+			}
+		});
+		frame.getContentPane().add(minusStrom, "cell 2 4");
+		frame.getContentPane().add(button_6, "cell 5 4");
 
 		button_7 = new JButton("2");
 		button_7.addActionListener(new ZahlListener());
-		frame.getContentPane().add(button_7, "cell 3 4");
+		frame.getContentPane().add(button_7, "cell 6 4");
 
 		button_8 = new JButton("3");
 		button_8.addActionListener(new ZahlListener());
-		frame.getContentPane().add(button_8, "cell 4 4");
+		frame.getContentPane().add(button_8, "cell 7 4");
 
 		button_9 = new JButton("0");
 		button_9.addActionListener(new ZahlListener());
-		frame.getContentPane().add(button_9, "cell 3 5");
+		frame.getContentPane().add(button_9, "cell 6 5");
 
 		button_10 = new JButton(".");
 		button_10.addActionListener(new KommaListener());
-		frame.getContentPane().add(button_10, "cell 4 5");
+		frame.getContentPane().add(button_10, "cell 7 5");
 
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
@@ -235,6 +282,28 @@ public class Fensta {
 		});
 		frame.getContentPane().add(btnLoad, "cell 0 6,alignx center");
 		frame.getContentPane().add(btnSave, "cell 0 7,alignx center,aligny baseline");
+
+		lblSchritte = new JLabel("Schritte:");
+		frame.getContentPane().add(lblSchritte, "cell 5 7");
+
+		radioButton = new JRadioButton("1.0");
+		radioButton.setEnabled(true);
+		radioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				schritt ++;
+			}
+		});
+		buttonGroup.add(radioButton);
+		frame.getContentPane().add(radioButton, "cell 6 7");
+
+		radioButton_1 = new JRadioButton("0.1");
+		radioButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				schritt += 0.1;
+			}
+		});
+		buttonGroup.add(radioButton_1);
+		frame.getContentPane().add(radioButton_1, "cell 7 7");
 	}
 	/**
 	 * ActionListener
@@ -341,9 +410,13 @@ public class Fensta {
 	{
 		inhaltDate = JFDate.getText();
 		String tempdate = Date.get(JFDate.getText());
-		String[] tmp = tempdate.split("-");
-		wasser.setText(tmp[1]);
-		strom.setText(tmp[0]);
+		if(tempdate != null)
+		{
+			String[] tmp = tempdate.split("-");
+			wasser.setText(tmp[1]);
+			strom.setText(tmp[0]);
+		}
+		else JOptionPane.showMessageDialog(null, "Nothing to load!"); 
 	}
 
 }

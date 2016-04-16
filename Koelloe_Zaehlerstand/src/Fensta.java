@@ -153,7 +153,7 @@ public class Fensta {
 		plusWas.setBounds(102, 49, 41, 23);
 		plusWas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				double temp = Double.parseDouble(inhaltWasser) + schritt;
+				double temp = Double.parseDouble(wasser.getText()) + schritt;
 				temp = Math.round(temp*100)/100.0; 
 				inhaltWasser = Double.toString(temp);
 				wasser.setText(inhaltWasser);
@@ -166,7 +166,7 @@ public class Fensta {
 		minusWas.setMargin(new Insets(0,0,0,0));
 		minusWas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				double temp = Double.parseDouble(inhaltWasser) - schritt;
+				double temp = Double.parseDouble(wasser.getText()) - schritt;
 				temp = Math.round(temp*100)/100.0; 
 				inhaltWasser = Double.toString(temp);
 				wasser.setText(inhaltWasser);
@@ -239,7 +239,7 @@ public class Fensta {
 		plusStrom.setMargin(new Insets(0,0,0,0));
 		plusStrom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				double temp = Double.parseDouble(inhaltStrom) + schritt;
+				double temp = Double.parseDouble(strom.getText()) + schritt;
 				temp = Math.round(temp*100)/100.0; 
 				inhaltStrom = Double.toString(temp);
 				strom.setText(inhaltStrom);
@@ -252,7 +252,7 @@ public class Fensta {
 		minusStrom.setMargin(new Insets(0,0,0,0));
 		minusStrom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				double temp = Double.parseDouble(inhaltStrom) - schritt;
+				double temp = Double.parseDouble(strom.getText()) - schritt;
 				temp = Math.round(temp*100)/100.0; 
 				inhaltStrom = Double.toString(temp);
 				strom.setText(inhaltStrom);
@@ -360,8 +360,6 @@ public class Fensta {
 	 */
 	class ZahlListener implements ActionListener
 	{
-
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton btn = (JButton) e.getSource();
 			switch (zustand)
@@ -369,15 +367,11 @@ public class Fensta {
 			case 1: inhaltWasser = wasser.getText();
 			inhaltWasser += btn.getText();
 			wasser.setText(inhaltWasser); break;
-
 			case 2: inhaltStrom = strom.getText();
 			inhaltStrom += btn.getText();
 			strom.setText(inhaltStrom); break;
-
 			}
-
 		}
-
 	}
 	class KommaListener implements ActionListener
 	{
@@ -431,18 +425,24 @@ public class Fensta {
 	}
 	public void close () throws IOException
 	{
-		StringBuilder builder = new StringBuilder();
+		try {
+			StringBuilder builder = new StringBuilder();
 
-		for (String t : Date.keySet())
-		{
-			builder.append(t+":"+Date.get(t)+";");
+			for (String t : Date.keySet())
+			{
+				builder.append(t+":"+Date.get(t)+";");
+			}
+
+			FileWriter fw = new FileWriter(Datei.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter (fw);
+			bw.write(builder.toString());
+			bw.newLine();
+			bw.close();
+			System.out.println("Schreiben erfolgreich!");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Ups! Beim speicher ist ein fehler passiert!");
 		}
-
-		FileWriter fw = new FileWriter(Datei.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter (fw);
-		bw.write(builder.toString());
-		bw.newLine();
-		bw.close();
 
 	}
 	public void save() throws IOException
